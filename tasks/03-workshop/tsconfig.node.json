@@ -1,0 +1,11 @@
+{
+	"extends": "@tsconfig/node18/tsconfig.json",
+	"compilerOptions": {
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"moduleResolution": "node",
+		"module": "es2015",
+		"lib": ["es2020"]
+	},
+	"exclude": ["node_modules", "dist"]
+}

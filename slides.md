@@ -24,6 +24,7 @@ This workshop is designed to help you get started with Terraform. It will cover 
 - An AWS account
 - An AWS IAM user with programmatic access
 - AWS CLI installed on your local machine [AWS CLI Installation](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+- SAM CLI installed on your local machine (Optional - You can skip this step if you do not want to test your lambda locally)
 - Terraform installed on your local machine
 
 ```markdown
@@ -38,7 +39,8 @@ If you don't have terraform installed on your Mac, you can install it using Home
 Let's get ChatGPT give us the perfect answer
 
 ```bash +exec
-node chatGPT.js "What is Infrastructure as Code?"
+# exec
+node chatGPT.mjs "What is Infrastructure as Code?"
 ```
 
 <!--end_slide-->
@@ -82,13 +84,14 @@ Terraform is cloud agnostic, meaning it can be used to manage infrastructure on 
 
   - Local State
   - Remote State
-  - Terraform Cloud
 
-- Terraform Modules
+- Advanced Terraform
 
-  - Module Basics
-  - Module Sources
-  - Module Registry
+  - Locals
+  - Data Sources
+  - Modules
+  - Expressions & Functions
+  - Meta-Arguments
 
 - **Workshop Example:** Creating a simple lambda, API Gateway, S3 bucket, Cloudfront distribution, and DynamoDB table
 
@@ -237,6 +240,7 @@ provider "aws" {
 - Run `terraform init` to initialise the Terraform configuration.
 
 ```bash +exec
+# exec
 sh helper.sh clean ./tasks/01-initialise
 # "Initialising Terraform"
 cd ./tasks/01-initialise
@@ -249,6 +253,7 @@ Task 01
 ---
 
 ```bash +exec
+# exec
 # Checking the newly created .terraform directory
 tree -a ./tasks/01-initialise
 cat ./tasks/01-initialise/.terraform.lock.hcl
@@ -341,6 +346,8 @@ The `terraform plan` command allows us to compare the current state of our infra
 🚀 Demo Time 🚀
 
 ```bash +exec
+# exec
+
 sh helper.sh uncomment ./tasks/01-initialise/main.tf 20 58
 cd ./tasks/01-initialise
 ls 
@@ -352,6 +359,8 @@ code-insiders main.tf
 Seeing the changes that Terraform will make to our infrastructure:
 
 ```bash +exec
+# exec
+
 sh helper.sh osa ./tasks/01-initialise "terraform plan"
 ```
 <!--pause-->
@@ -359,6 +368,8 @@ sh helper.sh osa ./tasks/01-initialise "terraform plan"
 Applying the changes:
 
 ```bash +exec
+# exec
+
 sh helper.sh osa ./tasks/01-initialise "terraform apply"
 ```
 
@@ -369,6 +380,8 @@ sh helper.sh osa ./tasks/01-initialise "terraform apply"
 Let's now check the updated state file:
 
 ```bash +exec
+# exec
+
 cd ./tasks/01-initialise
 code-insiders terraform.tfstate
 ```
@@ -384,6 +397,7 @@ Task 01
 Creating an EC2 instance:
 
 ```bash +exec
+# exec
 sh helper.sh uncomment ./tasks/01-initialise/main.tf 59 89
 cd ./tasks/01-initialise
 code-insiders main.tf
@@ -392,18 +406,21 @@ code-insiders main.tf
 Checking the changes that Terraform will make to our infrastructure:
 
 ```bash +exec
+# exec
 sh helper.sh osa ./tasks/01-initialise "terraform plan"
 ```
 
 Applying the changes:
 
 ```bash +exec
+# exec
 sh helper.sh osa ./tasks/01-initialise "terraform apply"
 ```
 
 Checking the updated state file:
 
 ```bash +exec
+# exec
 cd ./tasks/01-initialise
 code-insiders terraform.tfstate
 ```
@@ -415,12 +432,14 @@ Task 01
 **💡 TIP**: You can also make use of `terraform show` to see the entire mapping of the resources that Terraform manages along the actual values of the resources as seen in AWS or your state file.
 
 ```bash +exec
+# exec
 sh helper.sh osa ./tasks/01-initialise "terraform show"
 ```
 
 Alternatively, if you want a more concise view of the resources that Terraform manages, you can make use `terraform state list`.
 
 ```bash +exec
+# exec
 cd ./tasks/01-initialise
 terraform state list
 ```
@@ -450,6 +469,7 @@ You will only want to run this command when you are sure you want to clean up al
 <!--reset_layout-->
 
 ```bash +exec
+# exec
 sh helper.sh osa ./tasks/01-initialise "terraform destroy"
 ```
 
@@ -458,6 +478,7 @@ sh helper.sh osa ./tasks/01-initialise "terraform destroy"
 Checking the updated state file:
 
 ```bash +exec
+# exec
 cd ./tasks/01-initialise
 echo "Check the state file"
 terraform state list
@@ -669,6 +690,7 @@ Task 02 - Locals, Variables & Outputs
 Navigate into the `tasks/02-handle-variables` directory.
 
 ```bash +exec
+# exec
 sh helper.sh clean ./tasks/02-handle-variables
 cd ./tasks/02-handle-variables
 code-insiders .
@@ -678,6 +700,7 @@ code-insiders .
 <!--column_layout: [2,1]-->
 <!--column: 1-->
 ![Brain](./images/brain.png)
+*Image by luis_molineroon on Freepik*
 
 <!--column: 0-->
 Anyone notice anything different about the `main.tf` file?
@@ -696,6 +719,7 @@ Does anyone want to take a guess at the contents of the `variables.tf` or `local
 Let's run `terraform init` again to initialise the Terraform configuration, and then plan the changes that Terraform will make to our infrastructure.
 
 ```bash +exec
+# exec
 sh helper.sh osa ./tasks/02-handle-variables "terraform init && terraform plan --input=false"
 ```
 
@@ -707,7 +731,7 @@ Task 02 - Locals, Variables & Outputs
 <!--column_layout: [1,2]-->
 <!--column: 0-->
 ![sad](./images/sad.png)
-
+*Image by luis_molineroon Freepik*
 <!--column: 1-->
 Can anyone guess how we can fix this error?
 
@@ -730,19 +754,23 @@ Can anyone guess how we can fix this error?
 <!--column_layout: [2,1]-->
 <!--column: 1-->
 ![happy](./images/happy.png)
-
+*Image by luis_molineroon Freepik*
 <!--column: 0-->
 
 🎉 Time to apply the changes 🎉
 
-By passing in the value of the variable using the `-var` flag.
+
+**🚨 This step may fail if you do not have an ssm `/vf-email`**
 
 ```bash +exec
+# exec
+# By passing in the value of the variable using the `-var` flag.
 sh helper.sh osa ./tasks/02-handle-variables "terraform plan --input=false -var 'instance_ssh_password=12345678'"
 ```
 <!--pause-->
 
 ```bash +exec
+# exec
 sh helper.sh osa ./tasks/02-handle-variables "terraform apply -auto-approve --input=false -var 'instance_ssh_password=12345678'"
 ```
 <!--pause-->
@@ -752,6 +780,7 @@ sh helper.sh osa ./tasks/02-handle-variables "terraform apply -auto-approve --in
 ## Verifying Changes
 
 ```bash +exec
+# exec
 cd ./tasks/02-handle-variables
 echo $(terraform output --raw instance_ip)
 curl http://$(terraform output --raw instance_ip)
@@ -760,6 +789,7 @@ curl http://$(terraform output --raw instance_ip)
 ## Destroying the resources
 
 ```bash +exec
+# exec
 sh helper.sh osa ./tasks/02-handle-variables "terraform destroy -auto-approve --input=false -var 'instance_ssh_password=12345678'"
 ```
 
@@ -904,5 +934,22 @@ Time to create our lambda, API Gateway, S3 bucket, Cloudfront distribution, and 
 ![Architecture](./images/architecture.png)
 
 ## Let's get started
+<!--column_layout: [2,1]-->
+<!--column: 1-->
+![Code](./images/code.png)
 
-Can anyone guess what the first step would be? 🤔 
+<!--column: 0-->
+
+```bash +exec
+# exec
+sh helper.sh clean ./tasks/03-workshop
+cd ./tasks/03-workshop
+code-insiders .
+```
+
+<!--reset_layout-->
+> Please note: The boilerplate code for the React app and Lambda function has already been provided for you. You can find the code within the `tasks/03-workshop` directory.
+> This is to save time and to focus on the Terraform configuration.
+
+
+<!--end_slide-->

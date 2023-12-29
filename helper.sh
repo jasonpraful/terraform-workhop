@@ -21,6 +21,12 @@ then
     cd "$directory"
     # Remove terraform files
     rm -rf .terraform .terraform.lock.hcl .terraformrc terraform.tfstate terraform.tfstate.backup
+    if [ -d "terraform" ]; then
+        cd terraform
+        rm -rf .terraform .terraform.lock.hcl .terraformrc terraform.tfstate terraform.tfstate.backup
+        cd ..
+    fi
+
     tree -a .
     exit 0
 elif [ "$operation" == "uncomment" ] || [ "$operation" == "comment" ];

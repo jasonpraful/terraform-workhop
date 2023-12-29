@@ -1,0 +1,32 @@
+{
+	"name": "@vfuk/terraform-workshop-lambda-function",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"license": "UNLICENSED",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"require": "./dist/index.js"
+		}
+	},
+	"author": {
+		"email": "jasonpraful.francisxavier1@vodafone.com",
+		"name": "Jason Francis Xavier"
+	},
+	"scripts": {
+		"build": "tsc -p ./tsconfig.json",
+		"postbuild": "cp package.json yarn.lock ../dist/lambda && yarn --cwd ../dist/lambda --production"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"devDependencies": {
+		"@types/aws-lambda": "^8.10.130",
+		"@types/node": "^20.10.5"
+	},
+	"dependencies": {
+		"aws-lambda": "^1.0.7"
+	}
+}
