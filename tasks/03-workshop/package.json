@@ -1,0 +1,17 @@
+{
+  "name": "@jasonpraful/terraform-workshop",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "terraform",
+    "lambda",
+    "aws"
+  ],
+  "author": "Jason Praful Francis Xavier <jasonpraful.francisxavier1@vodafone.com>",
+  "license": "MIT"
+}

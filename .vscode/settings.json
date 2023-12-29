@@ -6,6 +6,10 @@
     "MD025": false,
     "MD040": false,
     "MD036": false,
-    "MD045": false
+    "MD045": false,
+    "MD024": false
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
   }
 }
