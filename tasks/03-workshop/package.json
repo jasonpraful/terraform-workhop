@@ -10,7 +10,10 @@
 	"types": "module",
 	"scripts": {
 		"build": "vite build",
-		"dev": "vite"
+		"build:function": "cd function && yarn build",
+		"dev": "vite",
+		"sync:fe": "aws s3 sync ./dist/client s3://$(cd terraform && terraform output --raw s3_bucket_name) --delete ",
+		"postsync:fe": "aws cloudfront create-invalidation --distribution-id $(cd terraform && terraform output --raw cf_distribution_id) --paths '/*' --output json --no-cli-auto-prompt"
 	},
 	"dependencies": {
 		"react": "^18.2.0",

@@ -951,5 +951,4 @@ code-insiders .
 > Please note: The boilerplate code for the React app and Lambda function has already been provided for you. You can find the code within the `tasks/03-workshop` directory.
 > This is to save time and to focus on the Terraform configuration.
 
-
 <!--end_slide-->
