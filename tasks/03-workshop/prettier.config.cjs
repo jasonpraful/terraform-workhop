@@ -1,3 +1,4 @@
+/** @type {import("prettier").Config} */
 module.exports = {
 	jsxSingleQuote: false,
 	proseWrap: 'always',
@@ -10,6 +11,6 @@ module.exports = {
 	useTabs: true,
 	endOfLine: 'lf',
 	printWidth: 80,
-	tailwindConfig: './tailwind.config.ts',
+	tailwindConfig: './app/tailwind.config.ts',
 	plugins: ['prettier-plugin-tailwindcss'],
 }

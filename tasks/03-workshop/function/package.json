@@ -1,6 +1,6 @@
 {
-	"name": "@vfuk/terraform-workshop-lambda-function",
-	"version": "1.0.0",
+	"name": "terraform-workshop-lambda-function",
+	"version": "0.0.0",
 	"private": true,
 	"type": "module",
 	"license": "UNLICENSED",
@@ -24,7 +24,7 @@
 	},
 	"devDependencies": {
 		"@types/aws-lambda": "^8.10.130",
-		"@types/node": "^20.10.5"
+		"@types/node": "18.13.0"
 	},
 	"dependencies": {
 		"@aws-sdk/client-dynamodb": "^3.484.0",

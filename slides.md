@@ -184,7 +184,7 @@ Variables are used to parameterise your Terraform configuration. Variables are d
 ```terraform
 variable "aws_region" {
   type    = string
-  default = "us-east-1"
+  default = "eu-west-1"
 }
 ```
 
@@ -515,7 +515,7 @@ variable "instance_ami" {
 # Local Variables - these are temporary variables that can be used to simplify your configuration
 # Example: If any value is used more than once in your configuration, you can create a local variable for it
 locals {
-  aws_region   = "us-east-1"
+  aws_region   = "eu-west-1"
   project_name = "terraform-workshop"
 }
 
@@ -573,11 +573,11 @@ Variables can be defined in multiple places and in multiple ways. Terraform uses
 # variables.tf
 variable "aws_region" {
   type    = string
-  default = "us-east-1"
+  default = "eu-west-1"
 }
 ```
 
-By default any resource that uses the `aws_region` variable will use the value `us-east-1`. Unless we override it using one of the methods mentioned above.
+By default any resource that uses the `aws_region` variable will use the value `eu-west-1`. Unless we override it using one of the methods mentioned above.
 
 *source: https://developer.hashicorp.com/terraform/language/values/variables#variable-definition-precedence*
 <!--column: 1-->
@@ -625,7 +625,7 @@ These values are often passed in as environment variables, via a `.tfvars` file 
 ```terraform {1-5 | 7-10}
 variable "aws_region" {
   type      = string
-  default   = "us-east-1"
+  default   = "eu-west-1"
   sensitive = false
 }
 
@@ -640,7 +640,7 @@ variable "secret_id" {
 # output of terraform plan
 + resource "aws_vpcxxx" "default" {
     + arn                              = (known after apply)
-    + aws_region                       = "us-east-1"
+    + aws_region                       = "eu-west-1"
     + id                               = (sensitive value)
 }
 ```
@@ -812,11 +812,11 @@ Operators (+,-), Conditionals ( 1 > 2 ? true : false), etc.
 
 ```terraform
 locals {
-  aws_region   = "us-east-1"
+  aws_region   = "eu-west-1"
   project_name = "terraform-workshop"
   project_id   = "${local.project_name}-${local.aws_region}"
-  ## project_id = "terraform-workshop-us-east-1"
-  project_is_prod = "${local.aws_region == "us-east-1" ? true : false}"
+  ## project_id = "terraform-workshop-eu-west-1"
+  project_is_prod = "${local.aws_region == "eu-west-1" ? true : false}"
   ## project_is_prod = true
 } 
 ```
@@ -827,10 +827,10 @@ Function Example:
 ```terraform
 # function example
 locals {
-  aws_region   = "us-east-1"
+  aws_region   = "eu-west-1"
   project_name = "terraform-workshop"
   project_id   = format("%s-%s", local.project_name, local.aws_region)
-  ## project_id = "terraform-workshop-us-east-1"
+  ## project_id = "terraform-workshop-eu-west-1"
 }
 ```
 
