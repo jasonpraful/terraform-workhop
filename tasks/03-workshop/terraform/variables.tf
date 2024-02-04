@@ -39,3 +39,8 @@ variable "lambda_function_name" {
   description = "Name of the Lambda function to create"
   default     = "terraform-workshop-vf-lambda-function"
 }
+
+variable "lambda_iam_role_name" {
+  description = "Name of the IAM role to create for the Lambda function"
+  default     = "terraform-workshop-vf-lambda-role"
+}

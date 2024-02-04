@@ -22,7 +22,7 @@ resource "aws_s3_bucket_website_configuration" "frontend_bucket_website_configur
     suffix = "index.html"
   }
   error_document {
-    key = "error.html"
+    key = "index.html"
   }
 
 }
@@ -117,12 +117,13 @@ resource "aws_cloudfront_distribution" "cf_distribution" {
     cloudfront_default_certificate = true
   }
   ordered_cache_behavior {
-    allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
-    cached_methods         = ["HEAD", "GET"]
-    cache_policy_id        = var.cloudfront_api_cache_policy_id
-    target_origin_id       = "messages_api"
-    viewer_protocol_policy = "redirect-to-https"
-    path_pattern           = "/api/*"
+    allowed_methods          = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+    cached_methods           = ["HEAD", "GET"]
+    cache_policy_id          = var.cloudfront_api_cache_policy_id
+    origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
+    target_origin_id         = "messages_api"
+    viewer_protocol_policy   = "redirect-to-https"
+    path_pattern             = "/api/*"
   }
 
   tags = {
@@ -217,7 +218,7 @@ resource "aws_appautoscaling_policy" "messages_table_write_policy" {
 ###########
 
 resource "aws_iam_role" "iam_for_lambda" {
-  name               = "iam_for_lambda"
+  name               = var.lambda_iam_role_name
   assume_role_policy = data.aws_iam_policy_document.lambda_exec.json
 }
 
