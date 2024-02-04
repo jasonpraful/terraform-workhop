@@ -1,12 +1,13 @@
 import {
 	DeleteItemCommand,
 	DynamoDBClient,
-	ScanCommand,
 	PutItemCommand,
+	ScanCommand,
 } from '@aws-sdk/client-dynamodb'
 import { unmarshall } from '@aws-sdk/util-dynamodb'
-import { Message } from '../types/message.types'
 import { APIGatewayProxyResult } from 'aws-lambda'
+
+import { Message } from '../types/message.types'
 
 export const handleGet = async (
 	client: DynamoDBClient,
@@ -75,7 +76,7 @@ export const handleDelete = async (
 	const command = new DeleteItemCommand({
 		TableName: process.env.TABLE_NAME,
 		Key: {
-			id: { N: id },
+			id: { N: id.toString() },
 		},
 	})
 	const response = await client.send(command)
@@ -91,6 +92,6 @@ export const handleDelete = async (
 
 	return {
 		statusCode: 200,
-		body: 'Message deleted',
+		body: 'You did it! The message is gone. 🎉',
 	}
 }

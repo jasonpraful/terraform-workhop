@@ -11,9 +11,9 @@ const MessageList = () => {
 
 	const { mutateAsync } = useDeleteMessage(queryClient)
 
-	const handleDelete = async (index: number) => {
+	const handleDelete = async (id: string) => {
 		try {
-			await mutateAsync(index)
+			await mutateAsync(id)
 		} catch (error) {
 			console.error(error)
 		}
@@ -42,7 +42,7 @@ const MessageList = () => {
 							fill="currentFill"
 						/>
 					</svg>
-					<span className="">Loading...</span>
+					<span>Loading...</span>
 				</div>
 			</div>
 		)
@@ -50,9 +50,9 @@ const MessageList = () => {
 	return (
 		<div className="col-span-1 h-[50vh] items-start justify-start overflow-y-auto rounded-lg border border-gray-500 shadow-lg">
 			<ul className="my-2 h-full w-full p-2">
-				{messages?.map((message, index) => (
+				{messages?.map((message) => (
 					<li
-						key={message.email}
+						key={message.id}
 						className="mb-2 flex items-center justify-between rounded-lg border border-black bg-gray-100 p-4"
 					>
 						<div>
@@ -63,7 +63,7 @@ const MessageList = () => {
 						<div>
 							<button
 								className="rounded-full bg-red-500 px-5 py-2 text-sm font-semibold leading-5 text-white hover:bg-red-700"
-								onClick={() => handleDelete(index)}
+								onClick={() => handleDelete(message.id)}
 							>
 								Delete
 							</button>

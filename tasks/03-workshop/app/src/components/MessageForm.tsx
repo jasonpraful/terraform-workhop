@@ -1,9 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { useRef } from 'react'
 
 import { useUpdateMessages } from '@/services/queries/messages.query'
 
 const MessageForm = () => {
 	const queryClient = useQueryClient()
+	const formRef = useRef<HTMLFormElement>(null)
 	const { mutateAsync, isPending } = useUpdateMessages(queryClient)
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -14,6 +16,7 @@ const MessageForm = () => {
 		const message = formData.get('message') as string
 		try {
 			await mutateAsync({ name, email, message })
+			formRef.current?.reset()
 		} catch (error) {
 			console.error(error)
 		}
@@ -21,6 +24,7 @@ const MessageForm = () => {
 
 	return (
 		<form
+			ref={formRef}
 			onSubmit={handleSubmit}
 			className="col-span-1 h-[50vh] items-start justify-center rounded-lg border border-gray-500 p-5 pt-2 shadow-lg"
 		>

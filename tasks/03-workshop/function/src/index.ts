@@ -1,8 +1,9 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
+
 // Yes! The extension was intended. TSC doesn't add .js extension to the import
 // when compiling to JS, so we need to add it manually.
-import { handleDelete, handleGet, handlePost } from './helpers/dynamodb.js'
+import { handleDelete, handleGet, handlePost } from './handlers/dynamodb.js'
 
 export const handler = async (
 	event: APIGatewayProxyEvent,
@@ -27,8 +28,8 @@ export const handler = async (
 		}
 
 		if (event.httpMethod === 'DELETE') {
-			const { body } = event
-			if (!body) {
+			const { queryStringParameters } = event
+			if (!queryStringParameters || !queryStringParameters.id) {
 				return {
 					statusCode: 400,
 					body: JSON.stringify({
@@ -36,7 +37,7 @@ export const handler = async (
 					}),
 				}
 			}
-			const { id } = JSON.parse(body)
+			const id = JSON.parse(queryStringParameters.id)
 			if (!id) {
 				return {
 					statusCode: 400,

@@ -931,7 +931,7 @@ You now have all the skills you need to create your own infrastructure on AWS us
 Time to create our lambda, API Gateway, S3 bucket, Cloudfront distribution, and DynamoDB table.
 
 ## Refresher on the Architecture
-![Architecture](./images/architecture.png)
+![Architecture](./images/workshop_arch.png)
 
 ## Let's get started
 <!--column_layout: [2,1]-->

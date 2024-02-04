@@ -3,7 +3,7 @@
 		"plugin:react-hooks/recommended",
 		"plugin:@tanstack/eslint-plugin-query/recommended"
 	],
-	"plugins": ["react-refresh"],
+	"plugins": ["@tanstack/query","react-refresh"],
 	"rules": {
 		"react-refresh/only-export-components": [
 			"warn",
