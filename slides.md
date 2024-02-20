@@ -19,12 +19,12 @@ This workshop is designed to help you get started with Terraform. It will cover 
 
 ## Prerequisites
 
+- Clone https://github.com/jasonpraful/terraform-workshop
 - !**Basic understanding of AWS and Cloud infrastructure**!
 - An understanding of what Infrastructure as Code is
 - An AWS account
 - An AWS IAM user with programmatic access
 - AWS CLI installed on your local machine [AWS CLI Installation](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-- SAM CLI installed on your local machine (Optional - You can skip this step if you do not want to test your lambda locally)
 - Terraform installed on your local machine
 
 ```markdown
